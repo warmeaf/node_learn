@@ -11,4 +11,6 @@ const server = http.createServer((req, res) => {
 });
 
 // 监听9000端口
-server.listen(9000);
+server.listen(9000, () => {
+  console.log("server is running at http://127.0.0.1:9000");
+});
