@@ -7,7 +7,12 @@ const server = http.createServer((req, res) => {
   // console.log(res);
 
   // res.end()，设置响应体
-  res.end("hello");
+  // res.end("hello");
+
+  // 响应体如果是中文，会乱码
+  // 此时，需要设置响应头
+  res.setHeader("Content-Type", "text/html;charset=utf-8");
+  res.end("你好");
 });
 
 // 监听9000端口
