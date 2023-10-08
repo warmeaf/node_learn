@@ -3,6 +3,10 @@ import http from "http";
 const server = http.createServer((req, res) => {
   // req: 浏览器请求报文封装的对象
   // console.log(req);
+
+  // 获取请求的url
+  console.log(req.url); // 只包含 url 中的路径和查询字符串
+
   // res: 服务器响应报文封装的对象
   // console.log(res);
 
