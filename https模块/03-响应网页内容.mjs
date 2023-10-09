@@ -6,29 +6,39 @@ import { fileURLToPath } from "node:url";
 // console.log(path.resolve(fileURLToPath(import.meta.url), "../web/index.html"));
 
 const server = http.createServer((req, res) => {
-  const myURL = new URL(req.url, "http://example.org");
-  // const ids = myURL.searchParams.get("ids");
-
-  console.log(req.url);
-
-  let source = "";
   let fileBasePath = path.resolve(fileURLToPath(import.meta.url), "../web");
 
-  if (req.url === "/") {
-    source = fs.readFileSync(path.resolve(fileBasePath, "./index.html"));
-  } else if (req.url === "/index.css") {
-    source = fs.readFileSync(path.resolve(fileBasePath, "./index.css"));
-  } else if (req.url === "/index.js") {
-    source = fs.readFileSync(path.resolve(fileBasePath, "./index.js"));
-  } else {
-    res.statusCode = 404;
+  // // 原有书写方式
+  // let source = "";
+  // if (req.url === "/") {
+  //   source = fs.readFileSync(path.resolve(fileBasePath, "./index.html"));
+  // } else if (req.url === "/index.css") {
+  //   source = fs.readFileSync(path.resolve(fileBasePath, `.${req.url}`));
+  // } else if (req.url === "/index.js") {
+  //   source = fs.readFileSync(path.resolve(fileBasePath, `.${req.url}`));
+  // } else {
+  //   res.statusCode = 404;
+  //   res.end();
+  // }
+
+  // // 优化方式1
+  // let source = "";
+  // source = fs.readFileSync(path.resolve(fileBasePath, `.${req.url}`));
+  // res.write(source);
+  // res.end();
+
+  // 优化方式2
+  fs.readFile(path.resolve(fileBasePath, `.${req.url}`), (err, data) => {
+    if (err) {
+      res.statusCode = 500;
+      res.setHeader("Content-Type", "text/html;charset=utf-8");
+      res.end("无法获取资源");
+      return;
+    }
+
+    res.write(data);
     res.end();
-  }
-
-  // res.setHeader("Content-Type", "text/html;charset=utf-8");
-
-  res.write(source);
-  res.end();
+  });
 });
 
 server.listen(9000, () => {
