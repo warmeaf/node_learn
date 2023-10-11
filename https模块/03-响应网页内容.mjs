@@ -6,7 +6,12 @@ import { fileURLToPath } from "node:url";
 // console.log(path.resolve(fileURLToPath(import.meta.url), "../web/index.html"));
 
 const server = http.createServer((req, res) => {
-  let fileBasePath = path.resolve(fileURLToPath(import.meta.url), "../web");
+  // let fileBasePath = path.resolve(fileURLToPath(import.meta.url), "../web");
+
+  const fileBasePath = fileURLToPath(import.meta.url);
+  const rootPath = path.resolve(fileBasePath, "../web");
+
+  // console.log(req.url)
 
   // // 原有书写方式
   // let source = "";
@@ -28,7 +33,7 @@ const server = http.createServer((req, res) => {
   // res.end();
 
   // 优化方式2
-  fs.readFile(path.resolve(fileBasePath, `.${req.url}`), (err, data) => {
+  fs.readFile(rootPath + req.url, (err, data) => {
     if (err) {
       res.statusCode = 500;
       res.setHeader("Content-Type", "text/html;charset=utf-8");
