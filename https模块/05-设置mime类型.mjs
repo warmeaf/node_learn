@@ -56,6 +56,7 @@ const server = http.createServer((req, res) => {
     // console.log(ext)
     let mimeType = mimeTypes[ext];
     if (mimeType) {
+      // 比网页中的<meta charset="UTF-8" />优先级更高
       mimeType = ext === "html" ? mimeType + ";charset=utf-8" : mimeType;
       res.setHeader("Content-Type", mimeType);
     } else {
