@@ -24,3 +24,6 @@ const server = http.createServer((req, res) => {
 server.listen(9000, () => {
   console.log("server is running at http://127.0.0.1:9000");
 });
+
+// windows系统中，可以在资源监视器中查看端口和PID
+// 在任务管理器中可以根据PID查看应用
